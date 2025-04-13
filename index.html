@@ -1,405 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitHub Pages Sitemap Generator</title>
-  <style>
-    :root {
-      --theme-color: #42b983;
-      --theme-color-dark: #35495e;
-      --text-color-base: #2c3e50;
-      --text-color-secondary: #646473;
-      --text-color-tertiary: #81818e;
-      --border-color: #eaeaea;
-      --background: white;
-      --code-background: #f8f8f8;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: Source Sans Pro, Helvetica Neue, Arial, sans-serif;
-      line-height: 1.6;
-      color: var(--text-color-base);
-      background-color: #f4f4f4;
-      padding: 20px;
-      max-width: 1200px;
-      margin: 0 auto;
-      font-size: 15px;
-    }
-    
-    .container {
-      background: var(--background);
-      border-radius: 4px;
-      padding: 2.5rem;
-      box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
-      margin-bottom: 2rem;
-    }
-    
-    header {
-      margin-bottom: 2.5rem;
-      text-align: center;
-    }
-    
-    h1 {
-      color: var(--theme-color-dark);
-      margin-bottom: 1rem;
-      font-weight: 500;
-    }
-    
-    .description {
-      color: var(--text-color-secondary);
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .repo-settings {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    
-    .input-group {
-      flex: 1;
-      min-width: 200px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: var(--text-color-base);
-      font-size: 0.9rem;
-    }
-    
-    input {
-      width: 100%;
-      padding: 0.8rem;
-      border: 1px solid var(--border-color);
-      border-radius: 2px;
-      font-size: 0.9rem;
-      transition: border-color 0.15s ease;
-    }
-    
-    input:focus {
-      outline: none;
-      border-color: var(--theme-color);
-    }
-    
-    .controls {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
-    }
-    
-    button {
-      padding: 0.8rem 1.5rem;
-      font-size: 0.9rem;
-      background-color: var(--theme-color);
-      color: white;
-      border: none;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: opacity 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-    }
-    
-    button:hover {
-      opacity: 0.8;
-    }
-    
-    button:active {
-      transform: translateY(1px);
-    }
-    
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    
-    #downloadBtn {
-      background-color: var(--theme-color-dark);
-    }
-    
-    .result-container {
-      position: relative;
-    }
-    
-    .output-wrapper {
-      position: relative;
-      margin-top: 0.8rem;
-    }
-    
-    pre {
-      background: var(--code-background);
-      padding: 1.5rem;
-      border-radius: 2px;
-      overflow: auto;
-      white-space: pre-wrap;
-      font-size: 0.85rem;
-      max-height: 400px;
-      border: 1px solid var(--border-color);
-      font-family: Roboto Mono, Monaco, courier, monospace;
-    }
-    
-    .spinner {
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-    
-    .notification {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 10px 20px;
-      background-color: var(--theme-color);
-      color: white;
-      border-radius: 2px;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s;
-      font-size: 0.85rem;
-    }
-    
-    .notification.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    
-    footer {
-      text-align: center;
-      margin-top: 2rem;
-      color: var(--text-color-tertiary);
-      font-size: 0.85rem;
-    }
-    
-    @media (max-width: 768px) {
-      .container {
-        padding: 1.5rem;
-      }
-      
-      button {
-        width: 100%;
-        justify-content: center;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages Sitemap Generator</title>
+    <style>
+        :root {
+            --theme-color: #42b983;
+            --theme-color-dark: #35495e;
+            --text-color-base: #2c3e50;
+            --text-color-secondary: #646473;
+            --text-color-tertiary: #81818e;
+            --border-color: #eaeaea;
+            --background: white;
+            --code-background: #f8f8f8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Source Sans Pro, Helvetica Neue, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color-base);
+            background-color: #f4f4f4;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            font-size: 15px;
+        }
+
+        .container {
+            background: var(--background);
+            border-radius: 4px;
+            padding: 2.5rem;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        header {
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--theme-color-dark);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .description {
+            color: var(--text-color-secondary);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .repo-settings {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-color-base);
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border-color);
+            border-radius: 2px;
+            font-size: 0.9rem;
+            transition: border-color 0.15s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--theme-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            font-size: 0.9rem;
+            background-color: var(--theme-color);
+            color: white;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        #downloadBtn {
+            background-color: var(--theme-color-dark);
+        }
+
+        .result-container {
+            position: relative;
+        }
+
+        .output-wrapper {
+            position: relative;
+            margin-top: 0.8rem;
+        }
+
+        pre {
+            background: var(--code-background);
+            padding: 1.5rem;
+            border-radius: 2px;
+            overflow: auto;
+            white-space: pre-wrap;
+            font-size: 0.85rem;
+            max-height: 400px;
+            border: 1px solid var(--border-color);
+            font-family: Roboto Mono, Monaco, courier, monospace;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: var(--theme-color);
+            color: white;
+            border-radius: 2px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-color-tertiary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <header>
-      <h1>Docify Sitemap Generator</h1>
-      <p class="description">Generate a sitemap.xml file for your GitHub Pages site by extracting all markdown files from your repository.</p>
-    </header>
-    
-    <div class="repo-settings">
-      <div class="input-group">
-        <label for="domain">Base Domain</label>
-        <input type="text" id="domain" value="" placeholder="e.g., https://username.github.io/repo/">
-      </div>
-      
-      <div class="input-group">
-        <label for="owner">Repository Owner</label>
-        <input type="text" id="owner" value="thirstywaterx" placeholder="Enter GitHub username">
-      </div>
-      
-      <div class="input-group">
-        <label for="repo">Repository Name</label>
-        <input type="text" id="repo" value="docsify-ogas2.0" placeholder="Enter repository name">
-      </div>
-      
-      <div class="input-group">
-        <label for="branch">Branch</label>
-        <input type="text" id="branch" value="main" placeholder="Enter branch name">
-      </div>
-      
-      <div class="input-group">
-        <label for="directory">Directory Filter (optional)</label>
-        <input type="text" id="directory" placeholder="e.g., docs/ or leave empty for all">
-      </div>
+    <div class="container">
+        <header>
+            <h1>Docify Sitemap Generator</h1>
+            <p class="description">Generate a sitemap.xml file for your GitHub Pages site by extracting all markdown files from your repository.</p>
+        </header>
+
+        <div class="repo-settings">
+            <div class="input-group">
+                <label for="domain">Base Domain</label>
+                <input type="text" id="domain" value="" placeholder="e.g., https://username.github.io/repo/">
+            </div>
+
+            <div class="input-group">
+                <label for="owner">Repository Owner</label>
+                <input type="text" id="owner" value="thirstywaterx" placeholder="Enter GitHub username">
+            </div>
+
+            <div class="input-group">
+                <label for="repo">Repository Name</label>
+                <input type="text" id="repo" value="docsify-ogas2.0" placeholder="Enter repository name">
+            </div>
+
+            <div class="input-group">
+                <label for="branch">Branch</label>
+                <input type="text" id="branch" value="main" placeholder="Enter branch name">
+            </div>
+
+            <div class="input-group">
+                <label for="directory">Directory Filter (optional)</label>
+                <input type="text" id="directory" placeholder="e.g., docs/ or leave empty for all">
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="generateBtn">
+                <span>Generate Sitemap</span>
+            </button>
+            <button id="downloadBtn" disabled>
+                <span>Download sitemap.xml</span>
+            </button>
+        </div>
+
+        <div class="result-container">
+            <label>Output:</label>
+            <div class="output-wrapper">
+                <pre id="output">Click "Generate Sitemap" to start...</pre>
+            </div>
+        </div>
     </div>
-    
-    <div class="controls">
-      <button id="generateBtn">
-        <span>Generate Sitemap</span>
-      </button>
-      <button id="downloadBtn" disabled>
-        <span>Download sitemap.xml</span>
-      </button>
-    </div>
-    
-    <div class="result-container">
-      <label>Output:</label>
-      <div class="output-wrapper">
-        <pre id="output">Click "Generate Sitemap" to start...</pre>
-      </div>
-    </div>
-  </div>
-  
-  <footer>
-    GitHub Pages Sitemap Generator © 2025
-  </footer>
-  
-  <div id="notification" class="notification"></div>
 
-  <script>
-    const domainInput = document.getElementById('domain');
-    const ownerInput = document.getElementById('owner');
-    const repoInput = document.getElementById('repo');
-    const branchInput = document.getElementById('branch');
-    const directoryInput = document.getElementById('directory');
-    const generateBtn = document.getElementById('generateBtn');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const output = document.getElementById('output');
-    const notification = document.getElementById('notification');
+    <footer>
+        Doscify Pages Sitemap Generator © 2025
+        <br>
+        <a href="https://github.com/thirstywaterx/docsify-sitemap" style="color: grey;">By ThirstyWater</a>
+    </footer>
 
-    let generatedXml = '';
-    const spinner = '<span class="spinner"></span>';
+    <div id="notification" class="notification"></div>
 
-    async function getRepoTree() {
-      const owner = ownerInput.value.trim();
-      const repo = repoInput.value.trim();
-      const branch = branchInput.value.trim();
-      const directory = directoryInput.value.trim();
-      
-      if (!owner || !repo || !branch) {
-        showNotification('Please fill in all required repository details');
-        return null;
-      }
-      
-      const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
-      
-      try {
-        const res = await fetch(apiUrl);
-        
-        if (!res.ok) {
-          if (res.status === 404) {
-            throw new Error('Repository or branch not found');
-          } else {
-            throw new Error(`GitHub API error: ${res.status}`);
-          }
+    <script>
+        const domainInput = document.getElementById('domain');
+        const ownerInput = document.getElementById('owner');
+        const repoInput = document.getElementById('repo');
+        const branchInput = document.getElementById('branch');
+        const directoryInput = document.getElementById('directory');
+        const generateBtn = document.getElementById('generateBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const output = document.getElementById('output');
+        const notification = document.getElementById('notification');
+
+        let generatedXml = '';
+        const spinner = '<span class="spinner"></span>';
+
+        async function getRepoTree() {
+            const owner = ownerInput.value.trim();
+            const repo = repoInput.value.trim();
+            const branch = branchInput.value.trim();
+            const directory = directoryInput.value.trim();
+
+            if (!owner || !repo || !branch) {
+                showNotification('Please fill in all required repository details');
+                return null;
+            }
+
+            const apiUrl = `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`;
+
+            try {
+                const res = await fetch(apiUrl);
+
+                if (!res.ok) {
+                    if (res.status === 404) {
+                        throw new Error('Repository or branch not found');
+                    } else {
+                        throw new Error(`GitHub API error: ${res.status}`);
+                    }
+                }
+
+                const data = await res.json();
+
+                if (data.truncated) {
+                    showNotification('Warning: Repository too large, some files may be missing');
+                }
+
+                let mdFiles = data.tree.filter(item => item.path.endsWith('.md'));
+
+                // Apply directory filter if specified
+                if (directory) {
+                    const normalizedDir = directory.replace(/^\/+|\/+$/g, ''); // Remove leading/trailing slashes
+                    mdFiles = mdFiles.filter(item =>
+                        item.path.startsWith(normalizedDir + '/') ||
+                        item.path === normalizedDir + '.md'
+                    );
+                }
+
+                return mdFiles;
+            } catch (error) {
+                showNotification(`Error: ${error.message}`);
+                return null;
+            }
         }
-        
-        const data = await res.json();
-        
-        if (data.truncated) {
-          showNotification('Warning: Repository too large, some files may be missing');
+
+        function buildSitemap(mdFiles) {
+            const domain = domainInput.value.trim().replace(/\/+$/, ''); // Remove trailing slashes
+            const owner = ownerInput.value.trim();
+            const repo = repoInput.value.trim();
+
+            // Use provided domain or construct default GitHub Pages URL
+            const baseUrl = domain || `https://${owner}.github.io/${repo}`;
+
+            let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+            sitemapXml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+
+            // Add homepage
+            sitemapXml += `  <url>\n    <loc>${baseUrl}/</loc>\n    <priority>1.0</priority>\n  </url>\n`;
+
+            // Add each markdown file
+            mdFiles.forEach(file => {
+                // Convert file path to URL (remove .md extension for pretty URLs)
+                const urlPath = file.path.replace(/\.md$/, '');
+                const fileUrl = `${baseUrl}/${urlPath}`;
+
+                sitemapXml += `  <url>\n    <loc>${fileUrl}</loc>\n  </url>\n`;
+            });
+
+            sitemapXml += `</urlset>`;
+            return sitemapXml;
         }
-        
-        let mdFiles = data.tree.filter(item => item.path.endsWith('.md'));
-        
-        // Apply directory filter if specified
-        if (directory) {
-          const normalizedDir = directory.replace(/^\/+|\/+$/g, ''); // Remove leading/trailing slashes
-          mdFiles = mdFiles.filter(item => 
-            item.path.startsWith(normalizedDir + '/') || 
-            item.path === normalizedDir + '.md'
-          );
+
+        function downloadFile(filename, content) {
+            const blob = new Blob([content], {
+                type: 'application/xml'
+            });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
-        
-        return mdFiles;
-      } catch (error) {
-        showNotification(`Error: ${error.message}`);
-        return null;
-      }
-    }
 
-    function buildSitemap(mdFiles) {
-      const domain = domainInput.value.trim().replace(/\/+$/, ''); // Remove trailing slashes
-      const owner = ownerInput.value.trim();
-      const repo = repoInput.value.trim();
-      
-      // Use provided domain or construct default GitHub Pages URL
-      const baseUrl = domain || `https://${owner}.github.io/${repo}`;
-      
-      let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-      sitemapXml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-      
-      // Add homepage
-      sitemapXml += `  <url>\n    <loc>${baseUrl}/</loc>\n    <priority>1.0</priority>\n  </url>\n`;
+        function showNotification(message) {
+            notification.textContent = message;
+            notification.classList.add('show');
 
-      // Add each markdown file
-      mdFiles.forEach(file => {
-        // Convert file path to URL (remove .md extension for pretty URLs)
-        const urlPath = file.path.replace(/\.md$/, '');
-        const fileUrl = `${baseUrl}/${urlPath}`;
-        
-        sitemapXml += `  <url>\n    <loc>${fileUrl}</loc>\n  </url>\n`;
-      });
-
-      sitemapXml += `</urlset>`;
-      return sitemapXml;
-    }
-
-    function downloadFile(filename, content) {
-      const blob = new Blob([content], { type: 'application/xml' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-    
-    function showNotification(message) {
-      notification.textContent = message;
-      notification.classList.add('show');
-      
-      setTimeout(() => {
-        notification.classList.remove('show');
-      }, 3000);
-    }
-
-    generateBtn.addEventListener('click', async () => {
-      generateBtn.disabled = true;
-      generateBtn.innerHTML = `${spinner} <span>Generating...</span>`;
-      output.textContent = 'Fetching file list, please wait...';
-      
-      const mdFiles = await getRepoTree();
-      
-      if (mdFiles) {
-        if (mdFiles.length === 0) {
-          output.textContent = 'No markdown (.md) files found in the specified directory.';
-          showNotification('No markdown files found');
-        } else {
-          generatedXml = buildSitemap(mdFiles);
-          output.textContent = generatedXml;
-          downloadBtn.disabled = false;
-          showNotification(`Found ${mdFiles.length} markdown files`);
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
         }
-      } else {
-        output.textContent = 'Failed to generate sitemap. Check repository details and try again.';
-      }
-      
-      generateBtn.disabled = false;
-      generateBtn.innerHTML = '<span>Generate Sitemap</span>';
-    });
 
-    downloadBtn.addEventListener('click', () => {
-      if (generatedXml) {
-        downloadFile('sitemap.xml', generatedXml);
-        showNotification('sitemap.xml downloaded');
-      }
-    });
-  </script>
+        generateBtn.addEventListener('click', async () => {
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = `${spinner} <span>Generating...</span>`;
+            output.textContent = 'Fetching file list, please wait...';
+
+            const mdFiles = await getRepoTree();
+
+            if (mdFiles) {
+                if (mdFiles.length === 0) {
+                    output.textContent = 'No markdown (.md) files found in the specified directory.';
+                    showNotification('No markdown files found');
+                } else {
+                    generatedXml = buildSitemap(mdFiles);
+                    output.textContent = generatedXml;
+                    downloadBtn.disabled = false;
+                    showNotification(`Found ${mdFiles.length} markdown files`);
+                }
+            } else {
+                output.textContent = 'Failed to generate sitemap. Check repository details and try again.';
+            }
+
+            generateBtn.disabled = false;
+            generateBtn.innerHTML = '<span>Generate Sitemap</span>';
+        });
+
+        downloadBtn.addEventListener('click', () => {
+            if (generatedXml) {
+                downloadFile('sitemap.xml', generatedXml);
+                showNotification('sitemap.xml downloaded');
+            }
+        });
+    </script>
 </body>
+
 </html>
