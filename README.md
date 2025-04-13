@@ -1,7 +1,7 @@
 # Docsify Sitemap Generator
 
 [![MIT License](https://img.shields.io/badge/license-MIT-brightgreen)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/your-username/your-repo-name?style=social)](https://github.com/your-username/your-repo-name/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/thirstywaterx/docsify-sitemap?style=social)](https://github.com/your-username/your-repo-name/stargazers)
 [![Demo](https://img.shields.io/badge/demo-online-blue)](https://your-demo-url.com)
 
 Generate a `sitemap.xml` file for your GitHub Pages or Docsify-powered site by extracting all `.md` files from your public repository — great for SEO and indexing!
@@ -61,7 +61,7 @@ docs/
 
 ## Screenshot
 
-![Screenshot](https://your-image-url.com/screenshot.png)
+![Screenshot](https://pic1.imgdb.cn/item/67fb462f88c538a9b5ccbf1b.png)
 
 ---
 
