@@ -195,6 +195,35 @@
             font-size: 0.85rem;
         }
 
+        .settings-section {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .settings-title {
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--theme-color-dark);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .toggle-info {
+            font-size: 0.8rem;
+            color: var(--text-color-tertiary);
+            margin-left: 0.5rem;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 1.5rem;
@@ -215,30 +244,49 @@
             <p class="description">Generate a sitemap.xml file for your GitHub Pages site by extracting all markdown files from your repository.</p>
         </header>
 
-        <div class="repo-settings">
-            <div class="input-group">
-                <label for="domain">Base Domain</label>
-                <input type="text" id="domain" value="" placeholder="e.g., https://username.github.io/repo/">
+        <div class="settings-section">
+            <div class="settings-title">Repository Details</div>
+            <div class="repo-settings">
+                <div class="input-group">
+                    <label for="domain">Base Domain</label>
+                    <input type="text" id="domain" value="" placeholder="e.g., https://username.github.io/repo/">
+                </div>
+
+                <div class="input-group">
+                    <label for="owner">Repository Owner</label>
+                    <input type="text" id="owner" value="thirstywaterx" placeholder="Enter GitHub username">
+                </div>
+
+                <div class="input-group">
+                    <label for="repo">Repository Name</label>
+                    <input type="text" id="repo" value="docsify-ogas2.0" placeholder="Enter repository name">
+                </div>
+
+                <div class="input-group">
+                    <label for="branch">Branch</label>
+                    <input type="text" id="branch" value="main" placeholder="Enter branch name">
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-title">Directory Settings</div>
+            <div class="repo-settings">
+                <div class="input-group">
+                    <label for="baseDirectory">Base Directory (Root)</label>
+                    <input type="text" id="baseDirectory" placeholder="e.g., docs/ (leave empty for repo root)">
+                </div>
+
+                <div class="input-group">
+                    <label for="directory">Directory Filter (optional)</label>
+                    <input type="text" id="directory" placeholder="e.g., api/ (only include files from this subdirectory)">
+                </div>
             </div>
 
-            <div class="input-group">
-                <label for="owner">Repository Owner</label>
-                <input type="text" id="owner" value="thirstywaterx" placeholder="Enter GitHub username">
-            </div>
-
-            <div class="input-group">
-                <label for="repo">Repository Name</label>
-                <input type="text" id="repo" value="docsify-ogas2.0" placeholder="Enter repository name">
-            </div>
-
-            <div class="input-group">
-                <label for="branch">Branch</label>
-                <input type="text" id="branch" value="main" placeholder="Enter branch name">
-            </div>
-
-            <div class="input-group">
-                <label for="directory">Directory Filter (optional)</label>
-                <input type="text" id="directory" placeholder="e.g., docs/ or leave empty for all">
+            <div class="checkbox-container">
+                <input type="checkbox" id="useBaseAsRoot" checked>
+                <label for="useBaseAsRoot">Use Base Directory as Root in URLs</label>
+                <span class="toggle-info">(When checked, base directory path will be removed from URLs)</span>
             </div>
         </div>
 
@@ -260,7 +308,7 @@
     </div>
 
     <footer>
-        Doscify Pages Sitemap Generator © 2025
+        Docify Pages Sitemap Generator © 2025
         <br>
         <a href="https://github.com/thirstywaterx/docsify-sitemap" style="color: grey;">By ThirstyWater</a>
     </footer>
@@ -272,7 +320,9 @@
         const ownerInput = document.getElementById('owner');
         const repoInput = document.getElementById('repo');
         const branchInput = document.getElementById('branch');
+        const baseDirectoryInput = document.getElementById('baseDirectory');
         const directoryInput = document.getElementById('directory');
+        const useBaseAsRootCheckbox = document.getElementById('useBaseAsRoot');
         const generateBtn = document.getElementById('generateBtn');
         const downloadBtn = document.getElementById('downloadBtn');
         const output = document.getElementById('output');
@@ -285,6 +335,7 @@
             const owner = ownerInput.value.trim();
             const repo = repoInput.value.trim();
             const branch = branchInput.value.trim();
+            const baseDirectory = baseDirectoryInput.value.trim();
             const directory = directoryInput.value.trim();
 
             if (!owner || !repo || !branch) {
@@ -313,13 +364,33 @@
 
                 let mdFiles = data.tree.filter(item => item.path.endsWith('.md'));
 
-                // Apply directory filter if specified
+                // Apply base directory filter if specified
+                if (baseDirectory) {
+                    const normalizedBaseDir = baseDirectory.replace(/^\/+|\/+$/g, ''); // Remove leading/trailing slashes
+                    mdFiles = mdFiles.filter(item =>
+                        item.path.startsWith(normalizedBaseDir + '/') ||
+                        item.path === normalizedBaseDir + '.md'
+                    );
+                }
+
+                // Apply additional directory filter if specified  
                 if (directory) {
                     const normalizedDir = directory.replace(/^\/+|\/+$/g, ''); // Remove leading/trailing slashes
-                    mdFiles = mdFiles.filter(item =>
-                        item.path.startsWith(normalizedDir + '/') ||
-                        item.path === normalizedDir + '.md'
-                    );
+
+                    // If base directory is specified, we need to consider the full path
+                    if (baseDirectory) {
+                        const normalizedBaseDir = baseDirectory.replace(/^\/+|\/+$/g, '');
+                        const fullPath = normalizedBaseDir + '/' + normalizedDir;
+                        mdFiles = mdFiles.filter(item =>
+                            item.path.startsWith(fullPath + '/') ||
+                            item.path === fullPath + '.md'
+                        );
+                    } else {
+                        mdFiles = mdFiles.filter(item =>
+                            item.path.startsWith(normalizedDir + '/') ||
+                            item.path === normalizedDir + '.md'
+                        );
+                    }
                 }
 
                 return mdFiles;
@@ -330,23 +401,34 @@
         }
 
         function buildSitemap(mdFiles) {
-            const domain = domainInput.value.trim().replace(/\/+$/, ''); // Remove trailing slashes
+            const domain = domainInput.value.trim().replace(/\/+$/, ''); // Remove trailing slashes  
             const owner = ownerInput.value.trim();
             const repo = repoInput.value.trim();
+            const baseDirectory = baseDirectoryInput.value.trim().replace(/^\/+|\/+$/g, '');
+            const useBaseAsRoot = useBaseAsRootCheckbox.checked;
 
-            // Use provided domain or construct default GitHub Pages URL
+            // Use provided domain or construct default GitHub Pages URL  
             const baseUrl = domain || `https://${owner}.github.io/${repo}`;
 
             let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
             sitemapXml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
-            // Add homepage
+            // Add homepage  
             sitemapXml += `  <url>\n    <loc>${baseUrl}/</loc>\n    <priority>1.0</priority>\n  </url>\n`;
 
-            // Add each markdown file
+            // Add each markdown file  
             mdFiles.forEach(file => {
-                // Convert file path to URL (remove .md extension for pretty URLs)
-                const urlPath = file.path.replace(/\.md$/, '');
+                let urlPath = file.path.replace(/\.md$/, '');
+
+                // If using baseDirectory as root, remove it from the URL path
+                if (useBaseAsRoot && baseDirectory && urlPath.startsWith(baseDirectory)) {
+                    urlPath = urlPath.substring(baseDirectory.length);
+                    // Remove leading slash if present
+                    if (urlPath.startsWith('/')) {
+                        urlPath = urlPath.substring(1);
+                    }
+                }
+
                 const fileUrl = `${baseUrl}/${urlPath}`;
 
                 sitemapXml += `  <url>\n    <loc>${fileUrl}</loc>\n  </url>\n`;
