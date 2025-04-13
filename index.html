@@ -413,10 +413,10 @@
             let sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
             sitemapXml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
-            // Add homepage  
-            sitemapXml += `  <url>\n    <loc>${baseUrl}/</loc>\n    <priority>1.0</priority>\n  </url>\n`;
+            // Add homepage with /#/
+            sitemapXml += `  <url>\n    <loc>${baseUrl}/#/</loc>\n    <priority>1.0</priority>\n  </url>\n`;
 
-            // Add each markdown file  
+            // Add each markdown file with /#/
             mdFiles.forEach(file => {
                 let urlPath = file.path.replace(/\.md$/, '');
 
@@ -429,7 +429,8 @@
                     }
                 }
 
-                const fileUrl = `${baseUrl}/${urlPath}`;
+                // Add /#/ to the URL path
+                const fileUrl = `${baseUrl}/#/${urlPath}`;
 
                 sitemapXml += `  <url>\n    <loc>${fileUrl}</loc>\n  </url>\n`;
             });
